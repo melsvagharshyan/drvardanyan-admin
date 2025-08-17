@@ -76,9 +76,6 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
     },
   });
 
-  const selectedService = watch("service");
-  const editingAppointment = !!appointment;
-
   useEffect(() => {
     if (appointment) {
       reset({
