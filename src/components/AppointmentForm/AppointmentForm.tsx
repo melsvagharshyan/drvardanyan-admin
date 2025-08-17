@@ -5,7 +5,6 @@ import { ru } from "date-fns/locale";
 import {
   X,
   Calendar,
-  Clock,
   User,
   Phone,
   Stethoscope,
@@ -120,15 +119,6 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const getEndTime = (startTime: string, service: ServiceKey) => {
-    if (!startTime) return "";
-    const start = new Date(startTime);
-    const duration =
-      serviceOptions.find((s) => s.value === service)?.duration || 15;
-    const end = new Date(start.getTime() + duration * 60 * 1000);
-    return format(end, "HH:mm");
   };
 
   if (!isOpen) return null;

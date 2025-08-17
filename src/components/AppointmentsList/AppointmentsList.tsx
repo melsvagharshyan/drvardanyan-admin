@@ -3,13 +3,11 @@ import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import {
   Search,
-  Filter,
   Edit,
   Trash2,
   Plus,
   Calendar,
   Clock,
-  User,
   Phone,
   Stethoscope,
 } from "lucide-react";
@@ -69,7 +67,9 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
       borderWidth: "2px",
       borderRadius: "12px",
       minHeight: "48px",
-      boxShadow: state.isFocused ? "0 0 0 3px rgba(6, 182, 212, 0.2)" : "0 2px 4px rgba(0, 0, 0, 0.1)",
+      boxShadow: state.isFocused
+        ? "0 0 0 3px rgba(6, 182, 212, 0.2)"
+        : "0 2px 4px rgba(0, 0, 0, 0.1)",
       "&:hover": {
         borderColor: "#06b6d4",
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.15)",
@@ -77,10 +77,10 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
     }),
     option: (provided: any, state: any) => ({
       ...provided,
-      backgroundColor: state.isSelected 
-        ? "#06b6d4" 
-        : state.isFocused 
-        ? "#e0f2fe" 
+      backgroundColor: state.isSelected
+        ? "#06b6d4"
+        : state.isFocused
+        ? "#e0f2fe"
         : "white",
       color: state.isSelected ? "white" : "#1f2937",
       cursor: "pointer",
@@ -96,7 +96,8 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
       ...provided,
       border: "2px solid #e5e7eb",
       borderRadius: "12px",
-      boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+      boxShadow:
+        "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
       overflow: "hidden",
       marginTop: "4px",
     }),
@@ -126,7 +127,9 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
       color: state.isFocused ? "#06b6d4" : "#6b7280",
       padding: "8px",
       transition: "all 0.2s ease",
-      transform: state.selectProps.menuIsOpen ? "rotate(180deg)" : "rotate(0deg)",
+      transform: state.selectProps.menuIsOpen
+        ? "rotate(180deg)"
+        : "rotate(0deg)",
     }),
     clearIndicator: (provided: any) => ({
       ...provided,
@@ -311,88 +314,88 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
         </div>
 
         {/* Фильтр по статусу */}
-                 <Select
-           options={[
-             { value: "all", label: "Все статусы" },
-             { value: "today", label: "Сегодня" },
-             { value: "upcoming", label: "Предстоящие" },
-             { value: "past", label: "Завершенные" },
-           ]}
-           value={{
-             value: statusFilter,
-             label:
-               statusFilter === "all"
-                 ? "Все статусы"
-                 : statusFilter === "today"
-                 ? "Сегодня"
-                 : statusFilter === "upcoming"
-                 ? "Предстоящие"
-                 : "Завершенные",
-           }}
-           onChange={(option) => setStatusFilter(option?.value as any)}
-           className="w-full"
-           classNamePrefix="react-select"
-           placeholder="Выберите статус"
-           styles={selectStyles}
-           isClearable={false}
-           isSearchable={false}
-           menuPlacement="auto"
-           noOptionsMessage={() => "Нет доступных опций"}
-         />
+        <Select
+          options={[
+            { value: "all", label: "Все статусы" },
+            { value: "today", label: "Сегодня" },
+            { value: "upcoming", label: "Предстоящие" },
+            { value: "past", label: "Завершенные" },
+          ]}
+          value={{
+            value: statusFilter,
+            label:
+              statusFilter === "all"
+                ? "Все статусы"
+                : statusFilter === "today"
+                ? "Сегодня"
+                : statusFilter === "upcoming"
+                ? "Предстоящие"
+                : "Завершенные",
+          }}
+          onChange={(option) => setStatusFilter(option?.value as any)}
+          className="w-full"
+          classNamePrefix="react-select"
+          placeholder="Выберите статус"
+          styles={selectStyles}
+          isClearable={false}
+          isSearchable={false}
+          menuPlacement="auto"
+          noOptionsMessage={() => "Нет доступных опций"}
+        />
 
         {/* Фильтр по услуге */}
-                 <Select
-           options={[
-             { value: "all", label: "Все услуги" },
-             { value: "consultation", label: "Консультация" },
-             { value: "treatment", label: "Лечение" },
-             { value: "extraction", label: "Удаление" },
-             { value: "prosthetics", label: "Протезирование" },
-           ]}
-           value={{
-             value: serviceFilter,
-             label:
-               serviceFilter === "all"
-                 ? "Все услуги"
-                 : serviceLabels[serviceFilter as ServiceKey],
-           }}
-           onChange={(option) => setServiceFilter(option?.value as any)}
-           className="w-full"
-           classNamePrefix="react-select"
-           placeholder="Выберите услугу"
-           styles={selectStyles}
-           isClearable={false}
-           isSearchable={false}
-           menuPlacement="auto"
-           noOptionsMessage={() => "Нет доступных опций"}
-         />
+        <Select
+          options={[
+            { value: "all", label: "Все услуги" },
+            { value: "consultation", label: "Консультация" },
+            { value: "treatment", label: "Лечение" },
+            { value: "extraction", label: "Удаление" },
+            { value: "prosthetics", label: "Протезирование" },
+          ]}
+          value={{
+            value: serviceFilter,
+            label:
+              serviceFilter === "all"
+                ? "Все услуги"
+                : serviceLabels[serviceFilter as ServiceKey],
+          }}
+          onChange={(option) => setServiceFilter(option?.value as any)}
+          className="w-full"
+          classNamePrefix="react-select"
+          placeholder="Выберите услугу"
+          styles={selectStyles}
+          isClearable={false}
+          isSearchable={false}
+          menuPlacement="auto"
+          noOptionsMessage={() => "Нет доступных опций"}
+        />
 
         {/* Фильтр по диапазону дат */}
-                 <Select
-           options={[
-             { value: "all", label: "Все время" },
-             { value: "week", label: "Последняя неделя" },
-             { value: "month", label: "Последний месяц" },
-           ]}
-           value={{
-             value: dateRangeFilter,
-             label:
-               dateRangeFilter === "all"
-                 ? "Все время"
-                 : dateRangeFilter === "week"
-                 ? "Последняя неделя"
-                 : "Последний месяц",
-           }}
-           onChange={(option) => setDateRangeFilter(option?.value as any)}
-           className="w-full"
-           classNamePrefix="react-select"
-           placeholder="Выберите диапазон дат"
-           styles={selectStyles}
-           isClearable={false}
-           isSearchable={false}
-           menuPlacement="auto"
-           noOptionsMessage={() => "Нет доступных опций"}
-         />
+        <Select
+          options={[
+            { value: "all", label: "Все время" },
+            { value: "week", label: "Последняя неделя" },
+            { value: "month", label: "Последний месяц" },
+          ]}
+          value={{
+            value: dateRangeFilter,
+            label:
+              dateRangeFilter === "all"
+                ? "Все время"
+                : dateRangeFilter === "week"
+                ? "Последняя неделя"
+                : "Последний месяц",
+          }}
+          onChange={(option) => setDateRangeFilter(option?.value as any)}
+          className="w-full"
+          classNamePrefix="react-select"
+          placeholder="Выберите диапазон дат"
+          styles={selectStyles}
+          isClearable={false}
+          isSearchable={false}
+          menuPlacement="auto"
+          noOptionsMessage={() => "Нет доступных опций"}
+        />
       </div>
 
       {/* Статистика */}

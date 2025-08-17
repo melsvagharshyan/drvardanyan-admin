@@ -1,13 +1,7 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
-import {
-  Calendar as CalendarIcon,
-  Clock,
-  User,
-  Phone,
-  Stethoscope,
-} from "lucide-react";
+import { Calendar as CalendarIcon } from "lucide-react";
 import {
   useGetAvailabilityQuery,
   useGetAppointmentsQuery,
@@ -55,7 +49,6 @@ export const CalendarComponent: React.FC<CalendarProps> = ({
       }
     } else if (!isBooked) {
       // For available slots, create appointment with pre-filled date and time
-      const selectedDateTime = new Date(slotTime);
       onTimeSlotSelect?.(slotTime);
     }
   };

@@ -1,10 +1,9 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { store } from './store/store';
-import { Dashboard } from './components/Dashboard/Dashboard';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import './index.css'
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+import { Dashboard } from "./components/Dashboard/Dashboard";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./index.css";
 
 function App() {
   return (
