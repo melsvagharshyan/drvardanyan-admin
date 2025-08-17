@@ -64,7 +64,6 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
     handleSubmit,
     formState: { errors },
     reset,
-    watch,
     setValue,
   } = useForm<FormData>({
     defaultValues: {
