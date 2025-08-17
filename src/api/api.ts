@@ -1,6 +1,10 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export type ServiceKey = 'consultation' | 'treatment' | 'extraction' | 'prosthetics';
+export type ServiceKey =
+  | "consultation"
+  | "treatment"
+  | "extraction"
+  | "prosthetics";
 
 export interface Appointment {
   _id: string;
@@ -35,19 +39,19 @@ export interface UpdateAppointmentRequest {
   tzOffset?: number;
 }
 
-const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 export const api = createApi({
-  reducerPath: 'api',
+  reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl,
   }),
-  tagTypes: ['Appointments'],
+  tagTypes: ["Appointments"],
   endpoints: (builder) => ({
     // Получить все записи
     getAppointments: builder.query<Appointment[], void>({
-      query: () => 'appointments',
-      providesTags: ['Appointments'],
+      query: () => "appointments",
+      providesTags: ["Appointments"],
     }),
 
     // Получить доступность для конкретной даты
@@ -56,7 +60,7 @@ export const api = createApi({
       { date: string; service?: ServiceKey; tzOffset?: number }
     >({
       query: ({ date, service, tzOffset }) => ({
-        url: 'appointments/availability',
+        url: "appointments/availability",
         params: { date, service, tzOffset },
       }),
     }),
@@ -64,11 +68,11 @@ export const api = createApi({
     // Создать новую запись
     createAppointment: builder.mutation<Appointment, CreateAppointmentRequest>({
       query: (body) => ({
-        url: 'appointments',
-        method: 'POST',
+        url: "appointments",
+        method: "POST",
         body,
       }),
-      invalidatesTags: ['Appointments'],
+      invalidatesTags: ["Appointments"],
     }),
 
     // Обновить запись
@@ -78,19 +82,19 @@ export const api = createApi({
     >({
       query: ({ id, body }) => ({
         url: `appointments/${id}`,
-        method: 'PATCH',
+        method: "PATCH",
         body,
       }),
-      invalidatesTags: ['Appointments'],
+      invalidatesTags: ["Appointments"],
     }),
 
     // Удалить запись
     deleteAppointment: builder.mutation<{ message: string }, string>({
       query: (id) => ({
         url: `appointments/${id}`,
-        method: 'DELETE',
+        method: "DELETE",
       }),
-      invalidatesTags: ['Appointments'],
+      invalidatesTags: ["Appointments"],
     }),
   }),
 });
@@ -102,4 +106,3 @@ export const {
   useUpdateAppointmentMutation,
   useDeleteAppointmentMutation,
 } = api;
-
