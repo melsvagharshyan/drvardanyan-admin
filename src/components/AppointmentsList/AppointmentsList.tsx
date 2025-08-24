@@ -23,7 +23,7 @@ import Select from "react-select";
 interface AppointmentsListProps {
   onEditAppointment: (appointment: Appointment) => void;
   onCreateAppointment: () => void;
-  onRefetch?: () => void;
+  onRefetch?: () => void; // Add refetch callback
 }
 
 const serviceLabels: Record<ServiceKey, string> = {
@@ -57,9 +57,96 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
   const { data: appointments = [], isLoading } = useGetAppointmentsQuery();
   const [deleteAppointment] = useDeleteAppointmentMutation();
 
-  // react-select styles unchanged
+  // Keep your react-select styles unchanged
   const selectStyles = {
-    /* same as your existing styles */
+    control: (provided: any, state: any) => ({
+      ...provided,
+      backgroundColor: "white",
+      borderColor: state.isFocused ? "#06b6d4" : "#9ca3af",
+      borderWidth: "2px",
+      borderRadius: "12px",
+      minHeight: "48px",
+      boxShadow: state.isFocused
+        ? "0 0 0 3px rgba(6, 182, 212, 0.2)"
+        : "0 2px 4px rgba(0, 0, 0, 0.1)",
+      "&:hover": {
+        borderColor: "#06b6d4",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.15)",
+      },
+    }),
+    option: (provided: any, state: any) => ({
+      ...provided,
+      backgroundColor: state.isSelected
+        ? "#06b6d4"
+        : state.isFocused
+        ? "#e0f2fe"
+        : "white",
+      color: state.isSelected ? "white" : "#1f2937",
+      cursor: "pointer",
+      padding: "12px 16px",
+      fontSize: "14px",
+      fontWeight: state.isSelected ? "600" : "500",
+      borderBottom: "1px solid #f3f4f6",
+      "&:last-child": { borderBottom: "none" },
+    }),
+    menu: (provided: any) => ({
+      ...provided,
+      border: "2px solid #e5e7eb",
+      borderRadius: "12px",
+      boxShadow:
+        "0 20px 25px -5px rgba(0,0,0,0.1),0 10px 10px -5px rgba(0,0,0,0.04)",
+      overflow: "hidden",
+      marginTop: "4px",
+    }),
+    singleValue: (provided: any) => ({
+      ...provided,
+      color: "#1f2937",
+      fontWeight: "600",
+      fontSize: "14px",
+    }),
+    placeholder: (provided: any) => ({
+      ...provided,
+      color: "#6b7280",
+      fontWeight: "500",
+      fontSize: "14px",
+    }),
+    input: (provided: any) => ({
+      ...provided,
+      color: "#1f2937",
+      fontSize: "14px",
+    }),
+    indicatorSeparator: (provided: any) => ({ ...provided, display: "none" }),
+    dropdownIndicator: (provided: any, state: any) => ({
+      ...provided,
+      color: state.isFocused ? "#06b6d4" : "#6b7280",
+      padding: "8px",
+      transition: "all 0.2s ease",
+      transform: state.selectProps.menuIsOpen
+        ? "rotate(180deg)"
+        : "rotate(0deg)",
+    }),
+    clearIndicator: (provided: any) => ({
+      ...provided,
+      color: "#ef4444",
+      padding: "8px",
+      "&:hover": { color: "#dc2626" },
+    }),
+    multiValue: (provided: any) => ({
+      ...provided,
+      backgroundColor: "#e0f2fe",
+      borderRadius: "8px",
+      padding: "2px 8px",
+    }),
+    multiValueLabel: (provided: any) => ({
+      ...provided,
+      color: "#06b6d4",
+      fontWeight: "600",
+    }),
+    multiValueRemove: (provided: any) => ({
+      ...provided,
+      color: "#06b6d4",
+      "&:hover": { backgroundColor: "#06b6d4", color: "white" },
+    }),
   };
 
   const filteredAppointments = useMemo(() => {
@@ -197,7 +284,6 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
 
       {/* Фильтры */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        {/* Search Input */}
         <div className="relative text-black">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
@@ -209,7 +295,6 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
           />
         </div>
 
-        {/* Status Select */}
         <Select
           options={[
             { value: "all", label: "Все статусы" },
@@ -234,9 +319,10 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
           styles={selectStyles}
           isClearable={false}
           isSearchable={false}
+          menuPlacement="auto"
+          noOptionsMessage={() => "Нет доступных опций"}
         />
 
-        {/* Service Select */}
         <Select
           options={[
             { value: "all", label: "Все услуги" },
@@ -258,9 +344,10 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
           styles={selectStyles}
           isClearable={false}
           isSearchable={false}
+          menuPlacement="auto"
+          noOptionsMessage={() => "Нет доступных опций"}
         />
 
-        {/* Date Range Select */}
         <Select
           options={[
             { value: "all", label: "Все время" },
@@ -282,6 +369,8 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
           styles={selectStyles}
           isClearable={false}
           isSearchable={false}
+          menuPlacement="auto"
+          noOptionsMessage={() => "Нет доступных опций"}
         />
       </div>
 
@@ -350,12 +439,8 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
         </div>
       </div>
 
-      {/* Список записей - scrollable with visual cue */}
-      <div className="relative border border-gray-200 rounded-lg overflow-x-auto max-h-[500px] md:max-h-[600px] shadow-inner">
-        {/* Top and bottom gradient indicators */}
-        <div className="absolute top-0 left-0 right-0 h-6 bg-gradient-to-b from-white to-transparent pointer-events-none z-10" />
-        <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white to-transparent pointer-events-none z-10" />
-
+      {/* Список записей - scrollable */}
+      <div className="overflow-x-auto max-h-[500px] md:max-h-[600px] overflow-y-auto">
         <table className="min-w-full border-collapse">
           <thead className="hidden md:table-header-group">
             <tr className="border-b border-gray-200">
@@ -380,7 +465,7 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
             {filteredAppointments.map((appointment) => (
               <tr
                 key={appointment._id}
-                className="block md:table-row border-b border-gray-100 mb-4 md:mb-0 p-3 md:p-0  md:rounded-none bg-white md:bg-transparent shadow md:shadow-none"
+                className="block md:table-row border-b border-gray-100 mb-4 md:mb-0 p-3 md:p-0 rounded-lg md:rounded-none bg-white md:bg-transparent shadow md:shadow-none"
               >
                 <td className="block md:table-cell py-2 md:py-3 px-3 md:px-4">
                   <p className="font-medium text-gray-900">
