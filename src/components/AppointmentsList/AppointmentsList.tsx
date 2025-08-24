@@ -55,8 +55,7 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
   >("all");
 
   const { data: appointments = [], isLoading } = useGetAppointmentsQuery();
-  const [deleteAppointment, { isLoading: isDeleting }] =
-    useDeleteAppointmentMutation();
+  const [deleteAppointment] = useDeleteAppointmentMutation();
 
   // Keep your react-select styles unchanged
   const selectStyles = {
