@@ -75,19 +75,19 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
     },
   });
 
-  // Lock scroll when modal is open
+  // Lock background scroll when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
-
     return () => {
       document.body.style.overflow = "";
     };
   }, [isOpen]);
 
+  // Initialize form values
   useEffect(() => {
     if (appointment) {
       reset({
@@ -115,9 +115,7 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
         alert("Запись успешно создана");
       }
       onSuccess();
-      if (onRefetch) {
-        onRefetch();
-      }
+      if (onRefetch) onRefetch();
       onClose();
       reset();
     } catch (error) {
@@ -138,6 +136,7 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
           to { opacity: 1; transform: scale(1); }
         }
       `}</style>
+
       <div
         className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
         onClick={onClose}
@@ -183,7 +182,7 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
                 {...register("name", {
                   required: "Имя обязательно для заполнения",
                 })}
-                className={`w-full rounded-2xl px-4 py-3 border border-gray-300 shadow-inner focus:outline-none focus:ring-1 focus:ring-cyan-300 transition-all duration-300 placeholder:italic placeholder:text-gray-400 ${
+                className={`w-full rounded-2xl px-4 py-3 border border-gray-300 shadow-inner focus:outline-none focus:ring-1 focus:ring-cyan-300 transition-all duration-300 placeholder:italic placeholder:text-gray-400 text-black ${
                   errors.name ? "border-red-500 bg-red-50" : "bg-white"
                 }`}
                 placeholder="Введите имя пациента"
@@ -210,7 +209,7 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
                     message: "Введите корректный номер телефона",
                   },
                 })}
-                className={`w-full rounded-2xl px-4 py-3 border border-gray-300 shadow-inner focus:outline-none focus:ring-1 focus:ring-cyan-300 transition-all duration-300 placeholder:italic placeholder:text-gray-400 ${
+                className={`w-full rounded-2xl px-4 py-3 border border-gray-300 shadow-inner focus:outline-none focus:ring-1 focus:ring-cyan-300 transition-all duration-300 placeholder:italic placeholder:text-gray-400 text-black ${
                   errors.phoneNumber ? "border-red-500 bg-red-50" : "bg-white"
                 }`}
                 placeholder="+7 (999) 123-45-67"
@@ -230,7 +229,7 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
               </label>
               <select
                 {...register("service", { required: "Выберите услугу" })}
-                className="w-full rounded-2xl px-4 py-3 border border-gray-300 shadow-inner focus:outline-none focus:ring-1 focus:ring-cyan-300 transition-all duration-300"
+                className="w-full rounded-2xl px-4 py-3 border border-gray-300 shadow-inner focus:outline-none focus:ring-1 focus:ring-cyan-300 transition-all duration-300 text-black bg-white"
               >
                 {serviceOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -257,7 +256,7 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
                   required: "Дата и время обязательны для заполнения",
                 })}
                 disabled={!!(selectedDate && selectedTime && !appointment)}
-                className={`w-full rounded-2xl px-4 py-3 border border-gray-300 shadow-inner focus:outline-none focus:ring-1 focus:ring-cyan-300 transition-all duration-300 ${
+                className={`w-full rounded-2xl px-4 py-3 border border-gray-300 shadow-inner focus:outline-none focus:ring-1 focus:ring-cyan-300 transition-all duration-300 text-black ${
                   errors.start ? "border-red-500 bg-red-50" : "bg-white"
                 } ${
                   selectedDate && selectedTime && !appointment
