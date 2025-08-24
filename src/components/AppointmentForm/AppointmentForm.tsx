@@ -75,6 +75,19 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
     },
   });
 
+  // Lock scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   useEffect(() => {
     if (appointment) {
       reset({
@@ -85,7 +98,6 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
         tzOffset: new Date().getTimezoneOffset(),
       });
     } else if (selectedDate && selectedTime) {
-      // Auto-fill the date and time from calendar selection
       const startDate = new Date(selectedTime);
       const formattedDateTime = format(startDate, "yyyy-MM-dd'T'HH:mm");
       setValue("start", formattedDateTime);
@@ -103,7 +115,6 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
         alert("Запись успешно создана");
       }
       onSuccess();
-      // Trigger refetch to update calendar data
       if (onRefetch) {
         onRefetch();
       }
@@ -123,14 +134,8 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
     <>
       <style>{`
         @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
         }
       `}</style>
       <div
@@ -139,12 +144,10 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
       >
         <div
           className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
-          style={{
-            animation: "fadeIn 0.3s ease-out",
-          }}
+          style={{ animation: "fadeIn 0.3s ease-out" }}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Заголовок */}
+          {/* Header */}
           <div className="flex items-center justify-between p-6">
             <div>
               <h2 className="text-2xl font-bold bg-gradient-to-r from-cyan-500 via-cyan-950 to-cyan-500 text-transparent bg-clip-text">
@@ -167,9 +170,9 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
             </button>
           </div>
 
-          {/* Форма */}
+          {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-4">
-            {/* Имя пациента */}
+            {/* Name */}
             <div>
               <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
                 <User className="w-5 h-5 text-cyan-600" />
@@ -192,7 +195,7 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
               )}
             </div>
 
-            {/* Номер телефона */}
+            {/* Phone */}
             <div>
               <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
                 <Phone className="w-5 h-5 text-cyan-600" />
@@ -219,7 +222,7 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
               )}
             </div>
 
-            {/* Услуга */}
+            {/* Service */}
             <div>
               <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
                 <Stethoscope className="w-5 h-5 text-cyan-600" />
@@ -242,7 +245,7 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
               )}
             </div>
 
-            {/* Дата и время */}
+            {/* Date & Time */}
             <div>
               <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
                 <Calendar className="w-5 h-5 text-cyan-600" />
@@ -277,7 +280,7 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
               )}
             </div>
 
-            {/* Кнопки */}
+            {/* Buttons */}
             <div className="flex gap-4 pt-4">
               <button
                 type="button"
