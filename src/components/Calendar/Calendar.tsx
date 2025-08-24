@@ -419,7 +419,7 @@ export const CalendarComponent: React.FC<CalendarProps> = ({
           )}
 
           {/* Легенда временных слотов */}
-          <div className="flex items-center gap-4 mt-4 text-sm">
+          <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-2 sm:gap-4 mt-4 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-green-100 rounded"></div>
               <span className="text-gray-600">Доступно</span>
@@ -453,50 +453,55 @@ export const CalendarComponent: React.FC<CalendarProps> = ({
           <p className="text-gray-800 font-semibold mb-2">
             Записи на {format(selectedDate, "dd.MM.yyyy")}:
           </p>
-          {appointments
-            .filter(
+
+          {/* Scrollable container */}
+          <div className="max-h-[400px] sm:max-h-[500px] overflow-y-auto space-y-2 pr-2">
+            {appointments
+              .filter(
+                (apt) =>
+                  format(new Date(apt.start), "yyyy-MM-dd") ===
+                  format(selectedDate, "yyyy-MM-dd")
+              )
+              .map((apt, index) => (
+                <div
+                  key={apt._id}
+                  className="ml-2 p-3 bg-cyan-50 rounded-lg border border-cyan-200 shadow-sm"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-2 h-2 bg-cyan-500 rounded-full"></div>
+                    <span className="text-sm font-medium text-cyan-800">
+                      Запись #{index + 1}
+                    </span>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-sm text-gray-700">
+                      <span className="font-medium">Время:</span>{" "}
+                      {format(new Date(apt.start), "HH:mm")} -{" "}
+                      {format(new Date(apt.end), "HH:mm")}
+                    </p>
+                    <p className="text-sm text-gray-700">
+                      <span className="font-medium">Пациент:</span> {apt.name}
+                    </p>
+                    <p className="text-sm text-gray-700">
+                      <span className="font-medium">Услуга:</span>{" "}
+                      {getServiceLabel(apt.service)}
+                    </p>
+                  </div>
+                </div>
+              ))}
+
+            {appointments.filter(
               (apt) =>
                 format(new Date(apt.start), "yyyy-MM-dd") ===
                 format(selectedDate, "yyyy-MM-dd")
-            )
-            .map((apt, index) => (
-              <div
-                key={apt._id}
-                className="ml-2 mt-2 p-3 bg-cyan-50 rounded-lg border border-cyan-200 shadow-sm"
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-2 h-2 bg-cyan-500 rounded-full"></div>
-                  <span className="text-sm font-medium text-cyan-800">
-                    Запись #{index + 1}
-                  </span>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm text-gray-700">
-                    <span className="font-medium">Время:</span>{" "}
-                    {format(new Date(apt.start), "HH:mm")} -{" "}
-                    {format(new Date(apt.end), "HH:mm")}
-                  </p>
-                  <p className="text-sm text-gray-700">
-                    <span className="font-medium">Пациент:</span> {apt.name}
-                  </p>
-                  <p className="text-sm text-gray-700">
-                    <span className="font-medium">Услуга:</span>{" "}
-                    {getServiceLabel(apt.service)}
-                  </p>
-                </div>
+            ).length === 0 && (
+              <div className="ml-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                <p className="text-sm text-gray-600 text-center">
+                  На эту дату записей нет
+                </p>
               </div>
-            ))}
-          {appointments.filter(
-            (apt) =>
-              format(new Date(apt.start), "yyyy-MM-dd") ===
-              format(selectedDate, "yyyy-MM-dd")
-          ).length === 0 && (
-            <div className="ml-2 mt-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
-              <p className="text-sm text-gray-600 text-center">
-                На эту дату записей нет
-              </p>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>

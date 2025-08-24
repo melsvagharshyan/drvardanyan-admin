@@ -3,7 +3,7 @@ import { CalendarComponent } from "../Calendar/Calendar";
 import { AppointmentsList } from "../AppointmentsList/AppointmentsList";
 import { AppointmentForm } from "../AppointmentForm/AppointmentForm";
 import type { Appointment } from "../../api/api";
-import { CalendarDays, List, BarChart3, Settings } from "lucide-react";
+import { CalendarDays, List, Settings } from "lucide-react";
 import {
   useGetAppointmentsQuery,
   useGetAvailabilityQuery,
@@ -92,12 +92,6 @@ export const Dashboard: React.FC = () => {
       icon: List,
       description: "Все записи с фильтрацией и поиском",
     },
-    {
-      id: "analytics" as TabType,
-      label: "Аналитика",
-      icon: BarChart3,
-      description: "Статистика и отчеты по записям",
-    },
   ];
 
   return (
@@ -105,19 +99,14 @@ export const Dashboard: React.FC = () => {
       {/* Заголовок */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between h-auto sm:h-16 py-2 sm:py-0">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
                 Панель администратора
               </h1>
-              <span className="ml-3 px-3 py-1 text-sm bg-cyan-100 text-black  rounded-full">
+              <span className="mt-2 sm:mt-0 sm:ml-3 px-3 py-1 text-sm bg-cyan-100 text-black rounded-full">
                 Dr. Vardanyan
               </span>
-            </div>
-            <div className="flex items-center gap-4">
-              <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer">
-                <Settings className="w-5 h-5" />
-              </button>
             </div>
           </div>
         </div>
@@ -178,23 +167,6 @@ export const Dashboard: React.FC = () => {
             onCreateAppointment={handleCreateAppointment}
             onRefetch={handleRefetch}
           />
-        )}
-
-        {activeTab === "analytics" && (
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-              Аналитика
-            </h2>
-            <div className="text-center py-12">
-              <BarChart3 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-500 text-lg">
-                Аналитика находится в разработке
-              </p>
-              <p className="text-gray-400">
-                Скоро здесь появятся детальные отчеты и статистика
-              </p>
-            </div>
-          </div>
         )}
       </main>
 
