@@ -58,7 +58,7 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
   const [deleteAppointment, { isLoading: isDeleting }] =
     useDeleteAppointmentMutation();
 
-  // Custom styles for react-select
+  // Keep your react-select styles unchanged
   const selectStyles = {
     control: (provided: any, state: any) => ({
       ...provided,
@@ -88,16 +88,14 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
       fontSize: "14px",
       fontWeight: state.isSelected ? "600" : "500",
       borderBottom: "1px solid #f3f4f6",
-      "&:last-child": {
-        borderBottom: "none",
-      },
+      "&:last-child": { borderBottom: "none" },
     }),
     menu: (provided: any) => ({
       ...provided,
       border: "2px solid #e5e7eb",
       borderRadius: "12px",
       boxShadow:
-        "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+        "0 20px 25px -5px rgba(0,0,0,0.1),0 10px 10px -5px rgba(0,0,0,0.04)",
       overflow: "hidden",
       marginTop: "4px",
     }),
@@ -118,10 +116,7 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
       color: "#1f2937",
       fontSize: "14px",
     }),
-    indicatorSeparator: (provided: any) => ({
-      ...provided,
-      display: "none",
-    }),
+    indicatorSeparator: (provided: any) => ({ ...provided, display: "none" }),
     dropdownIndicator: (provided: any, state: any) => ({
       ...provided,
       color: state.isFocused ? "#06b6d4" : "#6b7280",
@@ -135,9 +130,7 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
       ...provided,
       color: "#ef4444",
       padding: "8px",
-      "&:hover": {
-        color: "#dc2626",
-      },
+      "&:hover": { color: "#dc2626" },
     }),
     multiValue: (provided: any) => ({
       ...provided,
@@ -153,17 +146,13 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
     multiValueRemove: (provided: any) => ({
       ...provided,
       color: "#06b6d4",
-      "&:hover": {
-        backgroundColor: "#06b6d4",
-        color: "white",
-      },
+      "&:hover": { backgroundColor: "#06b6d4", color: "white" },
     }),
   };
 
   const filteredAppointments = useMemo(() => {
     let filtered = appointments;
 
-    // Поиск по имени или телефону
     if (searchTerm) {
       filtered = filtered.filter(
         (appointment) =>
@@ -172,7 +161,6 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
       );
     }
 
-    // Фильтр по статусу
     if (statusFilter !== "all") {
       const now = new Date();
       const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -198,14 +186,12 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
       });
     }
 
-    // Фильтр по услуге
     if (serviceFilter !== "all") {
       filtered = filtered.filter(
         (appointment) => appointment.service === serviceFilter
       );
     }
 
-    // Фильтр по диапазону дат
     if (dateRangeFilter !== "all") {
       const now = new Date();
       let startDate: Date;
@@ -235,9 +221,7 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
     if (window.confirm("Вы уверены, что хотите удалить эту запись?")) {
       try {
         await deleteAppointment(id).unwrap();
-        // Show success message
         alert("Запись успешно удалена");
-        // Trigger refetch to update calendar
         onRefetch?.();
       } catch (error) {
         console.error("Ошибка при удалении записи:", error);
@@ -288,7 +272,7 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
       {/* Заголовок и кнопка создания */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
         <h2 className="text-2xl font-semibold text-gray-800">Список записей</h2>
         <button
           onClick={onCreateAppointment}
@@ -300,8 +284,7 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
       </div>
 
       {/* Фильтры */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        {/* Поиск */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div className="relative text-black">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
@@ -313,7 +296,6 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
           />
         </div>
 
-        {/* Фильтр по статусу */}
         <Select
           options={[
             { value: "all", label: "Все статусы" },
@@ -335,7 +317,6 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
           onChange={(option) => setStatusFilter(option?.value as any)}
           className="w-full"
           classNamePrefix="react-select"
-          placeholder="Выберите статус"
           styles={selectStyles}
           isClearable={false}
           isSearchable={false}
@@ -343,7 +324,6 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
           noOptionsMessage={() => "Нет доступных опций"}
         />
 
-        {/* Фильтр по услуге */}
         <Select
           options={[
             { value: "all", label: "Все услуги" },
@@ -362,7 +342,6 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
           onChange={(option) => setServiceFilter(option?.value as any)}
           className="w-full"
           classNamePrefix="react-select"
-          placeholder="Выберите услугу"
           styles={selectStyles}
           isClearable={false}
           isSearchable={false}
@@ -370,7 +349,6 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
           noOptionsMessage={() => "Нет доступных опций"}
         />
 
-        {/* Фильтр по диапазону дат */}
         <Select
           options={[
             { value: "all", label: "Все время" },
@@ -389,7 +367,6 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
           onChange={(option) => setDateRangeFilter(option?.value as any)}
           className="w-full"
           classNamePrefix="react-select"
-          placeholder="Выберите диапазон дат"
           styles={selectStyles}
           isClearable={false}
           isSearchable={false}
@@ -399,7 +376,7 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
       </div>
 
       {/* Статистика */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div className="bg-blue-50 p-4 rounded-lg">
           <div className="flex items-center gap-3">
             <Calendar className="w-8 h-8 text-blue-600" />
@@ -463,10 +440,10 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
         </div>
       </div>
 
-      {/* Список записей */}
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
+      {/* Список записей - scrollable */}
+      <div className="overflow-x-auto max-h-[500px] md:max-h-[600px] overflow-y-auto">
+        <table className="min-w-full border-collapse">
+          <thead className="hidden md:table-header-group">
             <tr className="border-b border-gray-200">
               <th className="text-left py-3 px-4 font-medium text-gray-700">
                 Пациент
@@ -485,24 +462,22 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="block md:table-row-group">
             {filteredAppointments.map((appointment) => (
               <tr
                 key={appointment._id}
-                className="border-b border-gray-100 hover:bg-gray-50"
+                className="block md:table-row border-b border-gray-100 mb-4 md:mb-0 p-3 md:p-0 rounded-lg md:rounded-none bg-white md:bg-transparent shadow md:shadow-none"
               >
-                <td className="py-3 px-4">
-                  <div>
-                    <p className="font-medium text-gray-900">
-                      {appointment.name}
-                    </p>
-                    <p className="text-sm text-gray-500 flex items-center gap-1">
-                      <Phone className="w-3 h-3" />
-                      {appointment.phoneNumber}
-                    </p>
-                  </div>
+                <td className="block md:table-cell py-2 md:py-3 px-3 md:px-4">
+                  <p className="font-medium text-gray-900">
+                    {appointment.name}
+                  </p>
+                  <p className="text-sm text-gray-500 flex items-center gap-1">
+                    <Phone className="w-3 h-3" />
+                    {appointment.phoneNumber}
+                  </p>
                 </td>
-                <td className="py-3 px-4">
+                <td className="block md:table-cell py-2 md:py-3 px-3 md:px-4">
                   <span
                     className={clsx(
                       "px-2 py-1 text-xs rounded-full",
@@ -512,49 +487,38 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
                     {serviceLabels[appointment.service]}
                   </span>
                 </td>
-                <td className="py-3 px-4">
-                  <div>
-                    <p className="font-medium text-gray-900">
-                      {format(new Date(appointment.start), "dd MMMM yyyy", {
-                        locale: ru,
-                      })}
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      {format(new Date(appointment.start), "HH:mm")} -{" "}
-                      {format(new Date(appointment.end), "HH:mm")}
-                    </p>
-                  </div>
+                <td className="block md:table-cell py-2 md:py-3 px-3 md:px-4">
+                  <p className="font-medium text-gray-900">
+                    {format(new Date(appointment.start), "dd MMMM yyyy", {
+                      locale: ru,
+                    })}
+                  </p>
+                  <p className="text-sm text-gray-500 flex items-center gap-1">
+                    <Clock className="w-3 h-3" />
+                    {format(new Date(appointment.start), "HH:mm")}
+                  </p>
                 </td>
-                <td className="py-3 px-4">{getStatusBadge(appointment)}</td>
-                <td className="py-3 px-4">
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => onEditAppointment(appointment)}
-                      className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
-                      title="Редактировать"
-                    >
-                      <Edit className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(appointment._id)}
-                      disabled={isDeleting}
-                      className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
-                      title="Удалить"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
+                <td className="block md:table-cell py-2 md:py-3 px-3 md:px-4">
+                  {getStatusBadge(appointment)}
+                </td>
+                <td className="block md:table-cell py-2 md:py-3 px-3 md:px-4 flex gap-2">
+                  <button
+                    onClick={() => onEditAppointment(appointment)}
+                    className="p-2 bg-cyan-100 text-cyan-700 rounded hover:bg-cyan-200"
+                  >
+                    <Edit className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(appointment._id)}
+                    className="p-2 bg-red-100 text-red-700 rounded hover:bg-red-200"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-
-        {filteredAppointments.length === 0 && (
-          <div className="text-center py-8">
-            <p className="text-gray-500">Записи не найдены</p>
-          </div>
-        )}
       </div>
     </div>
   );
