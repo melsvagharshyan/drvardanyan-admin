@@ -3,7 +3,7 @@ import { CalendarComponent } from "../Calendar/Calendar";
 import { AppointmentsList } from "../AppointmentsList/AppointmentsList";
 import { AppointmentForm } from "../AppointmentForm/AppointmentForm";
 import type { Appointment } from "../../api/api";
-import { CalendarDays, List, Settings } from "lucide-react";
+import { CalendarDays, List } from "lucide-react";
 import {
   useGetAppointmentsQuery,
   useGetAvailabilityQuery,
