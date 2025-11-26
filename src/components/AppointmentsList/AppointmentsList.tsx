@@ -500,7 +500,7 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
                 <td className="block md:table-cell py-2 md:py-3 px-3 md:px-4">
                   {getStatusBadge(appointment)}
                 </td>
-                <td className="block md:table-cell py-2 md:py-3 px-3 md:px-4 flex gap-2">
+                <td className="block md:table-cell py-2 md:py-3 px-3 md:px-4  gap-2">
                   <button
                     onClick={() => onEditAppointment(appointment)}
                     className="p-2 bg-cyan-100 text-cyan-700 rounded hover:bg-cyan-200"
@@ -509,7 +509,7 @@ export const AppointmentsList: React.FC<AppointmentsListProps> = ({
                   </button>
                   <button
                     onClick={() => handleDelete(appointment._id)}
-                    className="p-2 bg-red-100 text-red-700 rounded hover:bg-red-200"
+                    className="p-2 ml-2 bg-red-100 text-red-700 rounded hover:bg-red-200"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
